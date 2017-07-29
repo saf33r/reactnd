@@ -94,7 +94,7 @@ class BooksApp extends Component {
       // update books
       nextState.books = nextState.books
                           .filter(filterBook)
-                          .concat(updatedBook)
+                          .concat([updatedBook])
 
       // update search
       if (nextState.search && nextState.search.length) {
