@@ -48,9 +48,11 @@ class BooksApp extends Component {
   }
 
   updateBook(book, shelf) {
-    BooksAPI
-      .update(book, shelf)
-      .then(() => this.updateLocalBook(book, shelf))
+    if (book.shelf !== shelf) {
+      BooksAPI
+        .update(book, shelf)
+        .then(() => this.updateLocalBook(book, shelf))
+    }
   }
 
   updateQueryState(query) {
@@ -63,8 +65,21 @@ class BooksApp extends Component {
       return this.updateSearchState(data.books)
     }
 
-    // set the state
+    // remove duplicates
     let search = (data instanceof Array) ? uniqby(data, 'id') : []
+
+    // update search entries with 'books' shelf state
+    // when not found set the shelf to 'none'
+    search = search.map(item => {
+      let bookInBooks = this.state.books.filter(book => book.id === item.id)
+      if (bookInBooks && bookInBooks[0]) {
+        return bookInBooks[0]
+      } else {
+        return Object.assign({}, item, { shelf: 'none' })
+      }
+    })
+
+    // set the state
     this.setState({ search })
   }
 
