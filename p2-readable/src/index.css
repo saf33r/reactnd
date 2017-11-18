@@ -1,0 +1,11 @@
+.loading {
+  align-self: center;
+  margin: 0 auto;
+}
+
+.button.is-primary.is-outlined:focus {
+  background-color: transparent !important;
+  border-color: #00d1b2 !important;
+  color: #00d1b2 !important;
+  box-shadow: none;
+}
